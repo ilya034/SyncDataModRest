@@ -1,0 +1,11 @@
+displayName: "SyncDataModRest"
+name: "SyncDataModRest"
+author: "[#f00]ilya[#333]034"
+main: "gdrive.mod.SyncDataModRest"
+subtitle: "Transfer game data via Google Drive"
+description: "[red]WIP[], works only on desktop\nSimple mod for simple transfer game data via Google Drive\nFor use: go to Settings -> Game Data -> Google Drive\nUpload/Download works in background, check console(F8) for information"
+version: 0.1
+minGameVersion: 145
+java: true
+hideBrowser: true
+hidden: true
