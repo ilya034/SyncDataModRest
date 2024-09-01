@@ -28,7 +28,6 @@ import static mindustry.Vars.*;
 public class OAuthController {
     public static final String SCOPE = "https://www.googleapis.com/auth/drive.file";
 
-    // private final String state = getRandomString();
     private final String codeVerifier = getRandomString();
     private final String codeChallenge = getCodeChallengeString();
 
@@ -75,17 +74,16 @@ public class OAuthController {
     }
 
     public void exchangeAuthCodeForTokens(String authCode) throws IOException {
-        HttpURLConnection exchangeTokenResponse = requestAuthCodeExchange(createAuthCodeExchangeURI(authCode));
+        HttpURLConnection exchangeAuthCodeResponse = requestAuthCodeExchange(createAuthCodeExchangeURI(authCode));
 
-        if (exchangeTokenResponse.getResponseCode() != 200) {
+        if (exchangeAuthCodeResponse.getResponseCode() != 200) {
             Log.err("Failed to authorize: exchangeAuthCodeResponse.statusCode not OK");
             ui.showException(new Throwable("Failed to authorize: exchangeAuthCodeResponse.statusCode not OK"));
-            return;
         } else {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(exchangeTokenResponse.getInputStream(), StandardCharsets.UTF_8));
+                    new InputStreamReader(exchangeAuthCodeResponse.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder response = new StringBuilder();
-            String responseLine = null;
+            String responseLine;
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
@@ -99,7 +97,6 @@ public class OAuthController {
                 "&scope=" + SCOPE +
                 "&redirect_uri=" + redirectUri +
                 "&client_id=" + clientId +
-                // "&state=" + state.replace("=", "%3D") +
                 "&code_challenge=" + codeChallenge +
                 "&code_challenge_method=S256");
     }
@@ -116,7 +113,6 @@ public class OAuthController {
 
     public HttpURLConnection requestAuthCodeExchange(URI requestUri) {
         try {
-            Log.info(requestUri.toString());
             HttpURLConnection connection = (HttpURLConnection) (new URL(requestUri.toString())).openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");

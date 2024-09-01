@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 import static mindustry.Vars.*;
 
 public class ModSettings {
-    private static final String BASE_DATA_FILE_NAME = "/java.org.mod.SyncDataModRest-MindustryData";
+    private static final String BASE_DATA_FILE_NAME = "SyncDataModRest-MindustryData";
     private static final String DATA_DIRECTORY = Core.settings.getDataDirectory().path();
 
     static BaseDialog gdriveDialog = new BaseDialog("@gdrive-dialog");
